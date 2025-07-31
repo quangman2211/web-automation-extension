@@ -1,0 +1,287 @@
+{
+  "website": {
+    "name": "website_name",
+    "domain": "example.com",
+    "type": "ecommerce|social|news|video|other",
+    "version": "1.0.0",
+    "last_updated": "2024-01-20",
+    "author": "your_name",
+    "description": "Mô tả ngắn về website và mục đích automation"
+  },
+  
+  "selectors": {
+    "global": {
+      "_comment": "Selectors dùng chung cho mọi page",
+      "header": "header, [role='banner'], .header",
+      "search_box": "input[type='search'], #search, .search-input",
+      "search_button": "button[type='submit'], .search-button",
+      "user_menu": ".user-menu, .account-menu",
+      "cart_icon": ".cart-icon, [aria-label*='cart']",
+      "logo": ".logo, .brand, [aria-label*='home']"
+    },
+    
+    "pages": {
+      "home": {
+        "url_pattern": "^https?://(www\\.)?example\\.com/?$",
+        "identifiers": {
+          "_comment": "Cách nhận biết đang ở page này",
+          "primary": ".home-page-identifier",
+          "secondary": "body.home",
+          "fallback": "title:contains('Home')"
+        },
+        "elements": {
+          "_comment": "Elements specific cho page này",
+          "hero_banner": ".hero-banner, .main-banner",
+          "featured_section": ".featured, .highlights",
+          "categories_menu": ".categories, nav.categories"
+        }
+      },
+      
+      "category": {
+        "url_pattern": "/category/|/browse/|/shop/",
+        "identifiers": {
+          "primary": ".category-page",
+          "secondary": ".product-list"
+        },
+        "elements": {
+          "product_grid": ".product-grid, .items-grid",
+          "product_card": ".product-card, .item",
+          "filter_sidebar": ".filters, aside.filter",
+          "sort_dropdown": ".sort, select.sort",
+          "pagination": ".pagination, .page-numbers"
+        }
+      },
+      
+      "product": {
+        "url_pattern": "/product/|/item/|/p/",
+        "identifiers": {
+          "primary": ".product-detail",
+          "secondary": "[itemtype*='Product']"
+        },
+        "elements": {
+          "product_title": "h1, .product-name",
+          "price": ".price, [itemprop='price']",
+          "images": ".product-images img",
+          "add_to_cart": ".add-to-cart, button[name='add']",
+          "quantity": "input[name='quantity']",
+          "description": ".description, .product-info",
+          "reviews": ".reviews, #reviews"
+        }
+      }
+    }
+  },
+  
+  "scenarios": {
+    "scenario_name": {
+      "id": "unique_scenario_id",
+      "name": "Human Readable Scenario Name",
+      "description": "Mô tả chi tiết scenario này làm gì",
+      "enabled": true,
+      
+      "goals": {
+        "session_duration": {
+          "min": 10,
+          "max": 30,
+          "unit": "minutes"
+        },
+        "required_metrics": {
+          "_comment": "Metrics bắt buộc phải đạt",
+          "pages_visited": 10,
+          "actions_performed": 20
+        },
+        "optional_metrics": {
+          "_comment": "Metrics tùy chọn, nice to have",
+          "engagement_actions": 5
+        }
+      },
+      
+      "behavior_profile": {
+        "_comment": "Định nghĩa tính cách của user",
+        "user_type": "casual|focused|researcher|quick",
+        "reading_speed": "slow|normal|fast",
+        "decision_speed": "impulsive|thoughtful|analytical",
+        "engagement_level": "low|medium|high",
+        "price_sensitivity": "low|medium|high"
+      },
+      
+      "pages": {
+        "home": {
+          "stay_duration": {
+            "min": 30,
+            "max": 90,
+            "unit": "seconds"
+          },
+          
+          "entry_actions": {
+            "_comment": "Actions thực hiện khi vừa vào page",
+            "wait_for_load": {
+              "type": "wait",
+              "duration": "2-3s"
+            }
+          },
+          
+          "actions": {
+            "non_navigation": [
+              {
+                "name": "action_name",
+                "description": "Mô tả action này làm gì",
+                "probability": 0.5,
+                "conditions": {
+                  "_comment": "Điều kiện để thực hiện action",
+                  "min_time_on_page": 10,
+                  "previous_action_not": "same_action"
+                },
+                "impact": {
+                  "_comment": "Action này ảnh hưởng metric nào",
+                  "metric_name": 1,
+                  "another_metric": 2
+                },
+                "micro_sequence": [
+                  {
+                    "type": "wait|move|hover|click|scroll|type",
+                    "target": "@element_name hoặc CSS selector",
+                    "duration": "1-2s",
+                    "distance": "300px",
+                    "text": "text to type",
+                    "speed": "slow|normal|fast",
+                    "pattern": "natural|direct|hesitant"
+                  }
+                ]
+              }
+            ],
+            
+            "navigation": [
+              {
+                "name": "go_to_category",
+                "description": "Navigate to category page",
+                "probability": 0.7,
+                "target_page": "category",
+                "conditions": {},
+                "impact": {
+                  "pages_visited": 1
+                },
+                "micro_sequence": [
+                  {
+                    "type": "move",
+                    "target": "@categories_menu"
+                  },
+                  {
+                    "type": "hover",
+                    "duration": "1-2s"
+                  },
+                  {
+                    "type": "click",
+                    "target": ".category-link:random"
+                  }
+                ]
+              }
+            ]
+          },
+          
+          "exit_actions": {
+            "_comment": "Actions trước khi rời page",
+            "cleanup": {
+              "type": "close_popups"
+            }
+          }
+        }
+      },
+      
+      "decision_rules": {
+        "_comment": "Luật để Background tự quyết định",
+        "navigation_probability": {
+          "base": 0.3,
+          "modifiers": {
+            "time_pressure": "+0.2 when time > 80%",
+            "goal_behind": "+0.3 when progress < expected",
+            "page_fatigue": "+0.5 when time_on_page > max"
+          }
+        },
+        "action_selection": {
+          "method": "weighted_random|sequential|smart",
+          "prefer_unvisited": true,
+          "avoid_repetition": true
+        }
+      },
+      
+      "error_handling": {
+        "element_not_found": {
+          "retry_times": 3,
+          "retry_delay": "1-2s",
+          "fallback": "skip_action"
+        },
+        "page_load_timeout": {
+          "timeout": 30000,
+          "action": "reload|skip|abort"
+        }
+      }
+    }
+  },
+  
+  "micro_action_defaults": {
+    "_comment": "Default values cho micro actions",
+    "wait": {
+      "variation": "±20%",
+      "min": 100,
+      "max": 10000
+    },
+    "move": {
+      "speed": "300-1000px/s",
+      "pattern": "natural_curve",
+      "overshoot": true
+    },
+    "hover": {
+      "micro_movements": true,
+      "amplitude": "2-5px"
+    },
+    "click": {
+      "hold_duration": "50-150ms",
+      "offset": "center_random_5px",
+      "double_click_probability": 0.02
+    },
+    "scroll": {
+      "method": "smooth",
+      "viewport_margin": 100,
+      "pause_probability": 0.2
+    },
+    "type": {
+      "speed": "100-200ms/char",
+      "typo_probability": 0.03,
+      "correction_probability": 0.8,
+      "natural_pauses": true
+    }
+  },
+  
+  "selector_aliases": {
+    "_comment": "Shortcuts và patterns",
+    ":random": "Randomly select from matches",
+    ":visible": "Only visible elements",
+    ":inviewport": "Only in current viewport",
+    ":nth(n)": "Select nth element",
+    ":first": "First match",
+    ":last": "Last match",
+    "@": "Reference to selectors section",
+    "current": "Currently hovered element",
+    "browser_back": "Browser back button"
+  },
+  
+  "dynamic_values": {
+    "_comment": "Values được generate runtime",
+    "{timestamp}": "Current timestamp",
+    "{random_number}": "Random number",
+    "{random_text}": "Random text from pool",
+    "{session_id}": "Current session ID",
+    "{goal_metric}": "Value from goals"
+  },
+  
+  "templates": {
+    "_comment": "Reusable action templates",
+    "standard_scroll": {
+      "micro_sequence": [
+        {"type": "scroll", "distance": "300px"},
+        {"type": "wait", "duration": "1-2s"},
+        {"type": "scroll", "distance": "200px"}
+      ]
+    }
+  }
+}

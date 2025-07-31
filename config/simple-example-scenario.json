@@ -1,0 +1,310 @@
+{
+  "website": {
+    "name": "myshop",
+    "domain": "myshop.com",
+    "type": "ecommerce",
+    "version": "1.0.0",
+    "description": "Simple shopping scenario example"
+  },
+  
+  "selectors": {
+    "global": {
+      "search_box": "#search",
+      "cart_icon": ".cart-icon"
+    },
+    "pages": {
+      "home": {
+        "url_pattern": "^https://myshop.com/?$",
+        "identifiers": {
+          "primary": ".homepage"
+        },
+        "elements": {
+          "featured_products": ".featured-products",
+          "category_menu": ".category-menu a"
+        }
+      },
+      "category": {
+        "url_pattern": "/category/",
+        "identifiers": {
+          "primary": ".category-page"
+        },
+        "elements": {
+          "product_card": ".product-card",
+          "product_title": ".product-title",
+          "product_price": ".price"
+        }
+      },
+      "product": {
+        "url_pattern": "/product/",
+        "identifiers": {
+          "primary": ".product-detail"
+        },
+        "elements": {
+          "add_to_cart": ".add-to-cart-btn",
+          "product_image": ".product-image",
+          "reviews": ".reviews-section"
+        }
+      }
+    }
+  },
+  
+  "scenarios": {
+    "simple_shopping": {
+      "id": "simple_01",
+      "name": "Simple Shopping Flow",
+      "description": "Browse → View Products → Add to Cart",
+      
+      "goals": {
+        "session_duration": {
+          "min": 5,
+          "max": 10,
+          "unit": "minutes"
+        },
+        "required_metrics": {
+          "products_viewed": 5,
+          "cart_interactions": 1
+        }
+      },
+      
+      "pages": {
+        "home": {
+          "stay_duration": {
+            "min": 20,
+            "max": 40,
+            "unit": "seconds"
+          },
+          "actions": {
+            "non_navigation": [
+              {
+                "name": "explore_homepage",
+                "probability": 1.0,
+                "description": "Scroll và xem trang chủ",
+                "micro_sequence": [
+                  {
+                    "type": "wait",
+                    "duration": "2-3s",
+                    "_comment": "Chờ page load"
+                  },
+                  {
+                    "type": "scroll",
+                    "distance": "400px",
+                    "speed": "smooth",
+                    "_comment": "Scroll xuống từ từ"
+                  },
+                  {
+                    "type": "wait",
+                    "duration": "2-3s",
+                    "_comment": "Dừng đọc content"
+                  }
+                ]
+              }
+            ],
+            "navigation": [
+              {
+                "name": "go_to_category",
+                "probability": 1.0,
+                "target_page": "category",
+                "description": "Click vào category",
+                "impact": {
+                  "pages_visited": 1
+                },
+                "micro_sequence": [
+                  {
+                    "type": "move",
+                    "target": "@category_menu",
+                    "_comment": "Di chuột đến menu"
+                  },
+                  {
+                    "type": "hover",
+                    "duration": "1-2s",
+                    "_comment": "Hover để xem"
+                  },
+                  {
+                    "type": "click",
+                    "target": "@category_menu:first",
+                    "_comment": "Click category đầu tiên"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        
+        "category": {
+          "stay_duration": {
+            "min": 30,
+            "max": 60,
+            "unit": "seconds"
+          },
+          "actions": {
+            "non_navigation": [
+              {
+                "name": "browse_products",
+                "probability": 1.0,
+                "description": "Xem danh sách sản phẩm",
+                "impact": {
+                  "products_viewed": 3
+                },
+                "micro_sequence": [
+                  {
+                    "type": "wait",
+                    "duration": "2s"
+                  },
+                  {
+                    "type": "scroll",
+                    "distance": "300px"
+                  },
+                  {
+                    "type": "move",
+                    "target": "@product_card:nth(1)"
+                  },
+                  {
+                    "type": "hover",
+                    "duration": "2-3s",
+                    "_comment": "Hover xem sản phẩm 1"
+                  },
+                  {
+                    "type": "move",
+                    "target": "@product_card:nth(2)"
+                  },
+                  {
+                    "type": "hover", 
+                    "duration": "2-3s",
+                    "_comment": "Hover xem sản phẩm 2"
+                  }
+                ]
+              }
+            ],
+            "navigation": [
+              {
+                "name": "open_product",
+                "probability": 1.0,
+                "target_page": "product",
+                "description": "Mở trang sản phẩm",
+                "impact": {
+                  "products_viewed": 1
+                },
+                "micro_sequence": [
+                  {
+                    "type": "move",
+                    "target": "@product_card:nth(2)"
+                  },
+                  {
+                    "type": "click",
+                    "target": "@product_title",
+                    "_comment": "Click vào title của product"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        
+        "product": {
+          "stay_duration": {
+            "min": 30,
+            "max": 60,
+            "unit": "seconds"
+          },
+          "actions": {
+            "non_navigation": [
+              {
+                "name": "view_product_details",
+                "probability": 1.0,
+                "description": "Xem chi tiết sản phẩm",
+                "micro_sequence": [
+                  {
+                    "type": "wait",
+                    "duration": "2s"
+                  },
+                  {
+                    "type": "move",
+                    "target": "@product_image"
+                  },
+                  {
+                    "type": "hover",
+                    "duration": "3-4s",
+                    "_comment": "Xem ảnh sản phẩm"
+                  },
+                  {
+                    "type": "scroll",
+                    "distance": "400px",
+                    "_comment": "Scroll xem mô tả"
+                  },
+                  {
+                    "type": "wait",
+                    "duration": "3-5s",
+                    "_comment": "Đọc thông tin"
+                  }
+                ]
+              }
+            ],
+            "navigation": [
+              {
+                "name": "add_to_cart",
+                "probability": 0.5,
+                "target_page": "product",
+                "description": "Thêm vào giỏ hàng",
+                "impact": {
+                  "cart_interactions": 1
+                },
+                "micro_sequence": [
+                  {
+                    "type": "scroll",
+                    "to": "@add_to_cart"
+                  },
+                  {
+                    "type": "move",
+                    "target": "@add_to_cart"
+                  },
+                  {
+                    "type": "hover",
+                    "duration": "1-2s",
+                    "_comment": "Hover nút add to cart"
+                  },
+                  {
+                    "type": "click",
+                    "target": "current",
+                    "_comment": "Click add to cart"
+                  },
+                  {
+                    "type": "wait",
+                    "duration": "2-3s",
+                    "_comment": "Chờ response"
+                  }
+                ]
+              },
+              {
+                "name": "back_to_category",
+                "probability": 0.5,
+                "target_page": "category",
+                "description": "Quay lại xem thêm",
+                "micro_sequence": [
+                  {
+                    "type": "click",
+                    "target": "browser_back"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      
+      "decision_rules": {
+        "action_selection": {
+          "method": "weighted_random",
+          "description": "Chọn action dựa trên probability"
+        }
+      }
+    }
+  },
+  
+  "_getting_started": {
+    "step1": "Update selectors cho website của bạn",
+    "step2": "Test từng selector trong browser console",
+    "step3": "Chạy thử scenario với debug mode",
+    "step4": "Điều chỉnh timing và probability",
+    "step5": "Thêm actions và pages khác"
+  }
+}

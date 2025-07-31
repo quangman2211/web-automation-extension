@@ -1,0 +1,77 @@
+web-automation-extension/
+│
+├── 📄 manifest.json                          # Extension manifest (Manifest V3)
+│
+├── 📁 popup/
+│   ├── popup.html                           # Enhanced popup UI
+│   ├── popup.js                             # Enhanced popup logic with API integration
+│   └── popup.css                            # Popup styles (embedded in HTML)
+│
+├── 📁 options/
+│   ├── options.html                         # Enhanced options page UI
+│   ├── options.js                           # Enhanced options logic with data management
+│   └── options.css                          # Options styles (embedded in HTML)
+│
+├── 📁 background/
+│   ├── background.js                        # Main service worker
+│   └── modules/
+│       ├── config-manager.js               # Configuration management
+│       ├── session-manager.js              # Session management
+│       ├── storage-manager.js              # Storage utilities
+│       ├── website-detector.js             # Website detection logic
+│       └── automation-engine.js            # Core automation engine (placeholder)
+│
+├── 📁 content/
+│   ├── content-script.js                   # Main content script
+│   ├── content-styles.css                  # Content script styles
+│   └── modules/
+│       ├── page-detector.js                # Page type detection
+│       ├── element-finder.js               # Element selection utilities
+│       ├── action-executor.js              # Action execution engine
+│       └── progress-tracker.js             # Progress tracking
+│
+├── 📁 configs/                              # Default website configurations
+│   ├── amazon.json                         # Amazon configuration (from your upload)
+│   ├── facebook.json                       # Facebook configuration (derived)
+│   ├── simple-example.json                 # Simple example (from your upload)
+│   └── website-template.json               # Template (from your upload)
+│
+├── 📁 templates/                            # Configuration templates
+│   ├── ecommerce-template.json             # E-commerce template
+│   ├── social-template.json                # Social media template
+│   ├── news-template.json                  # News site template
+│   └── video-template.json                 # Video platform template
+│
+├── 📁 icons/                                # Extension icons
+│   ├── icon-16.png                         # 16x16 icon
+│   ├── icon-32.png                         # 32x32 icon
+│   ├── icon-48.png                         # 48x48 icon
+│   └── icon-128.png                        # 128x128 icon
+│
+├── 📁 assets/                               # Static assets
+│   ├── styles/
+│   │   ├── common.css                      # Shared styles
+│   │   └── themes.css                      # Theme definitions
+│   ├── images/
+│   │   └── logos/                          # Website logos
+│   └── fonts/                              # Custom fonts (if needed)
+│
+├── 📁 utils/                                # Utility modules
+│   ├── api-client.js                       # API communication utilities
+│   ├── dom-utils.js                        # DOM manipulation utilities
+│   ├── time-utils.js                       # Time and duration utilities
+│   ├── validation.js                       # Data validation utilities
+│   └── logger.js                           # Logging utilities
+│
+├── 📁 docs/                                 # Documentation
+│   ├── README.md                           # Main documentation
+│   ├── API.md                              # API documentation
+│   ├── CONFIGURATION.md                    # Configuration guide
+│   └── TROUBLESHOOTING.md                  # Troubleshooting guide
+│
+├── 📁 tests/                                # Test files (for development)
+│   ├── unit/                               # Unit tests
+│   ├── integration/                        # Integration tests
+│   └── fixtures/                           # Test data
+│
+└── 📄 package.json                          # Development dependencies (optional)
