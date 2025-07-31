@@ -1,0 +1,482 @@
+/* Web Automation Extension - Content Script Styles */
+
+/* Element highlighting for debugging */
+.wa-highlight {
+  outline: 3px solid #667eea !important;
+  outline-offset: 2px !important;
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  z-index: 9998 !important;
+}
+
+.wa-highlight::before {
+  content: '🎯 Automation Target';
+  position: absolute !important;
+  top: -30px !important;
+  left: 0 !important;
+  background: #667eea !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  white-space: nowrap !important;
+  z-index: 9999 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Debug overlay */
+#wa-debug-overlay {
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 320px !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(102, 126, 234, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15) !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 14px !important;
+  color: #1d1d1f !important;
+  overflow: hidden !important;
+}
+
+.wa-debug-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+}
+
+.wa-debug-close {
+  background: none !important;
+  border: none !important;
+  color: white !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  transition: background 0.2s ease !important;
+}
+
+.wa-debug-close:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.wa-debug-content {
+  padding: 16px !important;
+}
+
+.wa-debug-section {
+  margin-bottom: 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 8px 0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.wa-debug-section:last-of-type {
+  border-bottom: none !important;
+  margin-bottom: 16px !important;
+}
+
+.wa-debug-section strong {
+  color: #374151 !important;
+  font-weight: 600 !important;
+}
+
+.wa-debug-section span {
+  color: #667eea !important;
+  font-weight: 700 !important;
+  font-family: 'SF Mono', Monaco, monospace !important;
+  font-size: 13px !important;
+}
+
+.wa-debug-actions {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.wa-debug-actions button {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 70px !important;
+}
+
+#wa-debug-pause {
+  background: #f59e0b !important;
+  color: white !important;
+}
+
+#wa-debug-pause:hover {
+  background: #d97706 !important;
+  transform: translateY(-1px) !important;
+}
+
+#wa-debug-stop {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+#wa-debug-stop:hover {
+  background: #dc2626 !important;
+  transform: translateY(-1px) !important;
+}
+
+#wa-debug-screenshot {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+#wa-debug-screenshot:hover {
+  background: #059669 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Mouse cursor effects */
+.wa-mouse-trail {
+  position: absolute !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: #667eea !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  z-index: 9999 !important;
+  opacity: 0.7 !important;
+  transform: translate(-50%, -50%) !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.wa-mouse-trail.fade {
+  opacity: 0 !important;
+}
+
+/* Action indicators */
+.wa-action-indicator {
+  position: absolute !important;
+  background: rgba(102, 126, 234, 0.9) !important;
+  color: white !important;
+  padding: 6px 12px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  animation: wa-action-appear 0.3s ease !important;
+}
+
+@keyframes wa-action-appear {
+  from {
+    opacity: 0 !important;
+    transform: scale(0.8) translateY(10px) !important;
+  }
+  to {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+  }
+}
+
+.wa-action-indicator.click::before {
+  content: '👆 ' !important;
+}
+
+.wa-action-indicator.hover::before {
+  content: '🖱️ ' !important;
+}
+
+.wa-action-indicator.type::before {
+  content: '⌨️ ' !important;
+}
+
+.wa-action-indicator.scroll::before {
+  content: '📜 ' !important;
+}
+
+.wa-action-indicator.wait::before {
+  content: '⏳ ' !important;
+}
+
+/* Progress indicator overlay */
+.wa-progress-overlay {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(102, 126, 234, 0.3) !important;
+  border-radius: 20px !important;
+  padding: 24px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  text-align: center !important;
+  min-width: 300px !important;
+}
+
+.wa-progress-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #1d1d1f !important;
+  margin-bottom: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+.wa-progress-bar {
+  width: 100% !important;
+  height: 8px !important;
+  background: #f3f4f6 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  margin-bottom: 16px !important;
+}
+
+.wa-progress-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 8px !important;
+  transition: width 0.5s ease !important;
+  position: relative !important;
+}
+
+.wa-progress-fill::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent) !important;
+  animation: wa-progress-shimmer 2s infinite !important;
+}
+
+@keyframes wa-progress-shimmer {
+  0% { transform: translateX(-100%) !important; }
+  100% { transform: translateX(100%) !important; }
+}
+
+.wa-progress-text {
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+/* Element path indicator */
+.wa-element-path {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-family: 'SF Mono', Monaco, monospace !important;
+  z-index: 9999 !important;
+  max-width: 400px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Accessibility improvements */
+.wa-focus-ring {
+  outline: 3px solid #667eea !important;
+  outline-offset: 2px !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .wa-highlight {
+    outline-color: #000000 !important;
+    background-color: #ffff00 !important;
+  }
+  
+  #wa-debug-overlay {
+    background: white !important;
+    border: 2px solid #000000 !important;
+  }
+  
+  .wa-debug-header {
+    background: #000000 !important;
+    color: white !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .wa-highlight,
+  .wa-action-indicator,
+  .wa-progress-fill,
+  .wa-debug-close {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .wa-progress-fill::after {
+    animation: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #wa-debug-overlay {
+    background: rgba(30, 30, 30, 0.98) !important;
+    border-color: rgba(102, 126, 234, 0.5) !important;
+    color: #e5e7eb !important;
+  }
+  
+  .wa-debug-section {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .wa-debug-section strong {
+    color: #f3f4f6 !important;
+  }
+  
+  .wa-progress-overlay {
+    background: rgba(30, 30, 30, 0.98) !important;
+    border-color: rgba(102, 126, 234, 0.5) !important;
+  }
+  
+  .wa-progress-title {
+    color: #f3f4f6 !important;
+  }
+  
+  .wa-progress-bar {
+    background: #374151 !important;
+  }
+  
+  .wa-progress-text {
+    color: #9ca3af !important;
+  }
+}
+
+/* Loading spinner */
+.wa-loading-spinner {
+  display: inline-block !important;
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid rgba(102, 126, 234, 0.3) !important;
+  border-top: 2px solid #667eea !important;
+  border-radius: 50% !important;
+  animation: wa-spin 1s linear infinite !important;
+}
+
+@keyframes wa-spin {
+  0% { transform: rotate(0deg) !important; }
+  100% { transform: rotate(360deg) !important; }
+}
+
+/* Error indicators */
+.wa-error-indicator {
+  position: absolute !important;
+  background: #dc2626 !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+  animation: wa-error-shake 0.5s ease !important;
+}
+
+@keyframes wa-error-shake {
+  0%, 100% { transform: translateX(0) !important; }
+  25% { transform: translateX(-5px) !important; }
+  75% { transform: translateX(5px) !important; }
+}
+
+.wa-error-indicator::before {
+  content: '❌ ' !important;
+}
+
+/* Success indicators */
+.wa-success-indicator {
+  position: absolute !important;
+  background: #059669 !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3) !important;
+  animation: wa-success-bounce 0.5s ease !important;
+}
+
+@keyframes wa-success-bounce {
+  0%, 100% { transform: scale(1) !important; }
+  50% { transform: scale(1.1) !important; }
+}
+
+.wa-success-indicator::before {
+  content: '✅ ' !important;
+}
+
+/* Hide elements that might interfere */
+.wa-hidden {
+  display: none !important;
+}
+
+/* Prevent interference with page layout */
+#wa-debug-overlay,
+.wa-highlight,
+.wa-action-indicator,
+.wa-progress-overlay,
+.wa-element-path,
+.wa-error-indicator,
+.wa-success-indicator,
+.wa-mouse-trail {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure our elements are always on top */
+#wa-debug-overlay,
+.wa-progress-overlay {
+  z-index: 2147483647 !important;
+}
+
+.wa-highlight,
+.wa-action-indicator,
+.wa-element-path,
+.wa-error-indicator,
+.wa-success-indicator,
+.wa-mouse-trail {
+  z-index: 2147483646 !important;
+}
